@@ -1,0 +1,15 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+
+# Local portal data, e.g. PORTAL_DATA=data/portal.json
+data/
+
+# Editors and OS files
+.vscode/
+.idea/
+.DS_Store
