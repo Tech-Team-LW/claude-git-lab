@@ -38,9 +38,18 @@ def cmd_team_list(args):
 
 def cmd_team_add(args):
     data = storage.load()
-    member = team.add_member(data, args.name, args.role)
+    member = team.add_member(data, args.name, args.role, args.team)
     storage.save(data)
     print(f"Added {member['name']} ({member['role']}).")
+    return 0
+
+
+def cmd_team_profile(args):
+    data = storage.load()
+    profile = team.get_profile(data, args.name)
+    print(f"Name: {profile['name']}")
+    print(f"Role: {profile['role']}")
+    print(f"Team: {profile['team'] or '(not set)'}")
     return 0
 
 
@@ -133,7 +142,12 @@ def build_parser():
     p = team_cmds.add_parser("add", help="add a member")
     p.add_argument("name")
     p.add_argument("role", help='for example "SRE" or "Platform Engineer"')
+    p.add_argument("--team", help='the team they belong to, for example "Platform"')
     p.set_defaults(func=cmd_team_add)
+
+    p = team_cmds.add_parser("profile", help="show a member's name, role and team")
+    p.add_argument("name")
+    p.set_defaults(func=cmd_team_profile)
 
     p = team_cmds.add_parser("remove", help="remove a member")
     p.add_argument("name")

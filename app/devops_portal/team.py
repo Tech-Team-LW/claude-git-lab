@@ -13,8 +13,11 @@ def find_member(data, name):
     return None
 
 
-def add_member(data, name, role):
-    """Add a member. Raises ValueError if the name is empty or taken."""
+def add_member(data, name, role, team=None):
+    """Add a member. Raises ValueError if the name is empty or taken.
+
+    team is optional; it is only stored when given.
+    """
     name = name.strip()
     if not name:
         raise ValueError("Member name cannot be empty.")
@@ -22,8 +25,26 @@ def add_member(data, name, role):
         raise ValueError(f"Member '{name}' already exists.")
 
     member = {"name": name, "role": role.strip()}
+    if team is not None and team.strip():
+        member["team"] = team.strip()
     data["members"].append(member)
     return member
+
+
+def get_profile(data, name):
+    """Return {"name", "role", "team"} for a member (ignoring case).
+
+    team is "" for members added without one. Raises ValueError if there
+    is no such member.
+    """
+    member = find_member(data, name)
+    if member is None:
+        raise ValueError(f"No member named '{name}'.")
+    return {
+        "name": member["name"],
+        "role": member["role"],
+        "team": member.get("team", ""),
+    }
 
 
 def remove_member(data, name):
