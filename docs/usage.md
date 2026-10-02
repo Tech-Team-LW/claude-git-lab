@@ -10,9 +10,23 @@ Add `--help` to any command to see its options, for example
 |---|---|
 | `team list` | Show all members |
 | `team add NAME ROLE` | Add a member. Put a role that contains spaces in quotes: `"Platform Engineer"` |
+| `team add NAME ROLE --team TEAM` | Add a member and record which team they belong to |
+| `team profile NAME` | Show a member's name, role and team |
 | `team remove NAME` | Remove a member |
 
 Names are matched without regard to case, so `asha` and `Asha` are the same member.
+
+Example:
+
+```bash
+./scripts/portal.sh team add Asha SRE --team Platform
+./scripts/portal.sh team profile asha
+Name: Asha
+Role: SRE
+Team: Platform
+```
+
+Members added without `--team` show `Team: (not set)`.
 
 ## Services
 
