@@ -1,5 +1,6 @@
 import contextlib
 import io
+import json
 import os
 import tempfile
 import unittest
@@ -74,6 +75,18 @@ class CliTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertEqual(out, "")
         self.assertIn("No member named 'Nobody'", err)
+
+    def test_team_list_does_not_show_team(self):
+        self.run_cli("team", "add", "Asha", "SRE", "--team", "Platform")
+        code, out, _ = self.run_cli("team", "list")
+        self.assertEqual(code, 0)
+        self.assertIn("Asha", out)
+        self.assertNotIn("Platform", out)
+
+    def test_blank_team_through_cli_is_not_stored(self):
+        self.run_cli("team", "add", "Asha", "SRE", "--team", "  ")
+        stored = json.loads(Path(os.environ["PORTAL_DATA"]).read_text())
+        self.assertNotIn("team", stored["members"][0])
 
     def test_team_profile_requires_name(self):
         with contextlib.redirect_stderr(io.StringIO()):

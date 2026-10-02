@@ -6,7 +6,7 @@ The app is a Python package, `app/devops_portal/`. Each module has one job:
 |---|---|
 | `cli.py` | Parses arguments with `argparse`, calls the other modules and prints results |
 | `storage.py` | Loads and saves the JSON data file |
-| `team.py` | Adds, finds and removes team members |
+| `team.py` | Adds, finds and removes team members, and builds a member's profile |
 | `services.py` | Adds, finds and removes services, and checks a URL with `urllib` |
 | `sysinfo.py` | Collects machine facts with `platform`, `socket`, `os` and `shutil` |
 | `__main__.py` | Makes `python3 -m devops_portal` work |
